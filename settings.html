@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebay Gebührenrechner</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        #language {
+          width: 7rem;
+          height: 1.9rem;
+          font-size: large;
+          margin-top:-2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header" id="header">Settings</h1>
+    <br><br>
+    <h3><span id="languageLabel">Language: </span> &nbsp; 
+        <select id="language" onchange=changeLanguage()>
+          <option selected>English</option>
+          <option>Deutsch</option>
+        </select>
+    </h3> 
+    <br><br><br>
+    <button onclick="location.href='paypalSettings.html'" id="paypal" class="neomorph">
+        Change <br>Paypal Fees
+    </button>
+    <br><br><br><br>
+    <button onclick="location.href='ebaySettings.html'" id="ebay" class="neomorph">
+        Change <br>Ebay Fees
+    </button>
+</body>
+
+<script>
+    // Change Text according to selected Language
+    let language = localStorage.getItem('language')
+
+    if(language==null){
+      language = 'English'
+    } 
+
+    if(language=='Deutsch') {
+        document.getElementById('language').value = 'Deutsch'
+        document.getElementById('header').innerHTML = 'Einstellungen'
+        document.getElementById('paypal').innerHTML = 'Paypal Gebühren<br>Anpassen'
+        document.getElementById('ebay').innerHTML = 'Ebay Gebühren<br>Anpassen'
+        document.getElementById('languageLabel').innerHTML = 'Sprache:'
+    } else {
+        document.getElementById('language').value = 'English'
+    }
+
+    function changeLanguage() {
+        language = document.getElementById('language').value
+        localStorage.setItem('language', language)
+        if(language=='Deutsch') {
+            document.getElementById('header').innerHTML = 'Einstellungen'
+            document.getElementById('paypal').innerHTML = 'Paypal Gebühren<br>Anpassen'
+            document.getElementById('ebay').innerHTML = 'Ebay Gebühren<br>Anpassen'
+            document.getElementById('languageLabel').innerHTML = 'Sprache:'
+        } 
+        else {
+          document.getElementById('header').innerHTML = 'Settings'
+          document.getElementById('paypal').innerHTML = 'Change<br>Paypal Fees'
+          document.getElementById('ebay').innerHTML = 'Change<br>Ebay Fees'
+          document.getElementById('languageLabel').innerHTML = 'Language:'
+        }
+      }
+</script>
+
+</html>

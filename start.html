@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale = 1">
+    <title>Gebührenrechner</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <style>
+        p {
+            margin: 2rem;
+        }
+        .header{
+            font-size: 8vw;
+            margin-top: 7vw;
+        }
+        .button{
+            margin-top: 10vw;
+            font-size: large;
+        }
+        #language {
+          width: 7rem;
+          height: 1.9rem;
+          font-size: large;
+          margin-top:-2rem;
+        }
+        #save{
+          width: 7rem;
+          margin-top: 3rem;
+        } 
+    </style>
+  </head>
+
+  <body>
+
+    <div class="topnav" href = "auswertung.html">
+      <div class="row">
+      </div>
+    </div>
+    <h1 class="header" id="header">
+        Fee Calculator
+    </h1>
+
+    <p id="text">
+        <b>
+            Welcome! <br>
+            Please select a Langueage here once.
+        </b>
+    </p>
+    <br>
+        <h3><span id="languageLabel">Language: </span> &nbsp; 
+          <select id="language" onchange=changeLanguage()>
+            <option selected>English</option>
+            <option>Deutsch</option>
+          </select>
+        </h3> 
+        
+        <button class="button neomorph" id="save" onclick="save()"><b>Save</button>
+    </div>
+
+ 
+
+  </body>
+  <script>     
+    let language = localStorage.getItem('language')
+
+    if(language==null){
+      language = 'English'
+    } 
+
+    // Change Text according to selected Language
+    if(language=='Deutsch') {
+        document.getElementById('language').value = 'Deutsch'
+        document.getElementById('header').innerHTML = 'Gebührenrechner'
+        document.getElementById('text').innerHTML = 'Wilkommen! <br> Bitte Wähle hier eine Sprache aus.'
+        document.getElementById('save').innerHTML = 'Speichern'
+        document.getElementById('languageLabel').innerHTML = 'Sprache:'
+      } 
+      else {
+        document.getElementById('language').value = 'English'
+        document.getElementById('header').innerHTML = 'Fee Calculator'
+        document.getElementById('text').innerHTML = 'Welcome! <br>Please select a Langueage here once.'
+        document.getElementById('save').innerHTML = 'Save'
+        document.getElementById('languageLabel').innerHTML = 'Language:'
+      }
+
+      function changeLanguage() {
+        language = document.getElementById('language').value
+        localStorage.setItem('language', language)
+        if(language=='Deutsch') {
+          document.getElementById('header').innerHTML = 'Gebührenrechner'
+          document.getElementById('text').innerHTML = 'Wilkommen! <br> Bitte Wähle hier eine Sprache aus.'
+          document.getElementById('save').innerHTML = 'Speichern'
+          document.getElementById('languageLabel').innerHTML = 'Sprache'
+        } 
+        else {
+          document.getElementById('header').innerHTML = 'Fee Calculator'
+          document.getElementById('text').innerHTML = 'Welcome! <br>Please select a Langueage here once.'
+          document.getElementById('save').innerHTML = 'Save'
+          document.getElementById('languageLabel').innerHTML = 'Language'
+        }
+      }
+
+      function save() {
+        if(language == 'Deutsch') {
+          localStorage.setItem('percent', 2.49)
+          localStorage.setItem('euro', 0.35)
+        }
+        else {
+          localStorage.setItem('percent', 2.9)
+          localStorage.setItem('euro', 0.3)
+        }
+        localStorage.setItem('language', document.getElementById('language').value)
+        location.href = 'index.html'
+      }
+
+  </script>
+</html> 

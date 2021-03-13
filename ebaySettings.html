@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale = 1">
+    <title>Gebührenrechner</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <style>
+        .header{
+            margin-top: 2rem;
+        }
+        input {
+          margin-left: 0;
+          margin-top: 1.5rem;
+        }
+        .button{
+            height: 2.8rem;
+            font-size: large;
+        }
+        #reset{
+          width: 10rem;
+          margin-top: 2rem;
+        }
+        #saveButton {
+          margin-top: 4.5rem;
+        }
+        @media (min-width: 600px) {
+          #saveButton {
+            margin-top: 8rem;
+        }
+        }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="topnav" href = "auswertung.html">
+      <div class="row">
+      </div>
+    </div>
+    <h1 class="header" id="header">
+        Change Ebay Fees
+    </h1>
+    <p id="text">
+        The standard Ebay Fees are 10% of the selling price.
+        Here you can change these to Your own needs.
+    </p>
+
+    <div>
+      <input type="number" value="10" id="ebayPercent" class="number"> % <br>
+
+      <button class="button neomorph" id="saveButton" onclick="save()"><b>Save</button>
+        <br><br>
+      <button class="button neomorph" id="reset" onclick="backup()"><b></b>Reset</button>
+    </div>
+ 
+
+  </body>
+  <script>
+      
+      var ebayPercent = localStorage.getItem("ebayPercent")
+
+        if(ebayPercent==null){
+            ebayPercent = 10
+        }  
+        if(isNaN(ebayPercent)){
+        ebayPpercent = 10
+        }
+
+        ebayPercent = Math.round(ebayPercent*10000)/10000
+
+        document.getElementById('ebayPercent').value = ebayPercent
+
+        function save(){
+            var ebayPercent = document.getElementById("ebayPercent").value
+            localStorage.setItem('ebayPercent', ebayPercent)
+            window.location.href = "index.html";
+        }
+
+        function backup(){
+            localStorage.setItem('ebayPercent', 10)
+            document.getElementById("ebayPercent").value = 10
+        }
+
+      
+      // Change Text according to selected Language
+      let language = localStorage.getItem('language')
+
+      if(language==null){
+        language = 'English'
+      } 
+
+      if(language=='Deutsch') {
+          document.getElementById('header').innerHTML = 'Gebührenrechner'
+          document.getElementById('text').innerHTML = 'Die Standard Ebay Gebühren betragen 10% vom Verkaufspreis:<br>hier können sie diesen Wert an ihre bedürfnisse anpassen.'
+          document.getElementById('saveButton').innerHTML = 'Speichern'
+          document.getElementById('reset').innerHTML = 'Zurücksetzen'
+      } 
+    </script>
+</html> 

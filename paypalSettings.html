@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale = 1">
+    <title>Gebührenrechner</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <style>
+        .header{
+            margin-top: 2rem;
+        }
+        input {
+          margin-left: 0;
+          margin-top: 1.5rem;
+        }
+        .button{
+            height: 2.8rem;
+            font-size: large;
+        }
+        #reset{
+          width: 10rem;
+          margin-top: 2rem;
+        }
+        #saveButton {
+          margin-top: 4.5rem;
+        }
+        @media (min-width: 600px) {
+          #saveButton {
+            margin-top: 8rem;
+        }
+        }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="topnav" href = "auswertung.html">
+      <div class="row">
+      </div>
+    </div>
+    <h1 class="header" id="header">
+        Change Paypal Fees
+    </h1>
+    <p id="text">
+      Paypal fees can differ from country to country. 
+      Simply set the correct value for your country here once.
+    </p>
+
+    <div>
+      <input type="number" value="2.9" id="percent" class="number"> % &nbsp;
+      + &nbsp; <input type="number" value="0.3" id="euro" class="number2"> € <br><br>
+        <button class="neomorph" onclick="us()">US</button> 
+        <button class="neomorph" onclick="europe()">EU</button>
+        <button class="neomorph" onclick="us()">UK</button>
+        <button class="neomorph" onclick="us()">CAN</button>
+        <button class="neomorph" onclick="india()">IND</button>
+        <button class="neomorph" onclick="mexico()">MEX</button>
+        <br><br>
+        <button class="button neomorph" id="saveButton" onclick="save()"><b>Save</button>
+        <br><br>
+        <button class="button neomorph" id="reset" onclick="backup()"><b>Reset</button>
+    </div>
+ 
+
+  </body>
+  <script>
+      
+      var euro = localStorage.getItem("euro")
+      var percent = localStorage.getItem("percent")
+
+    if(euro==null){
+      euro = 0.3
+    }
+    if(isNaN(euro)){
+      euro = 0.3
+    }
+    if(percent==null){
+      percent = 2.9
+    }  
+    if(isNaN(percent)){
+      percent = 2.9
+    }
+
+    percent = Math.round(percent*10000)/10000
+
+    document.getElementById('euro').value = euro
+    document.getElementById('percent').value = percent
+      function save(){
+          var percent = document.getElementById("percent").value
+          var euro = document.getElementById("euro").value
+          localStorage.setItem('percent', percent)
+          localStorage.setItem('euro', euro)
+          window.location.href = "index.html";
+      }
+
+      function backup(){
+        localStorage.setItem('percent', 2.9)
+        localStorage.setItem('euro', 0.3)
+        document.getElementById("percent").value = 2.9
+        document.getElementById("euro").value = 0.3
+      }
+  </script>
+  <script>
+    var euro = localStorage.getItem("euro")
+    var percent = localStorage.getItem("percent")
+
+    if(euro==null){
+      euro = 0.3
+    }
+    if(isNaN(euro)){
+      euro = 0.3
+    }
+    if(percent==null){
+      percent = 2.9
+    }  
+    if(isNaN(percent)){
+      percent = 2.9
+    }
+
+    percent = Math.round(percent*10000)/10000
+
+    document.getElementById('euro').value = euro
+    document.getElementById('percent').value = percent
+      function save(){
+          var percent = document.getElementById("percent").value
+          var euro = document.getElementById("euro").value
+          localStorage.setItem('percent', percent)
+          localStorage.setItem('euro', euro)
+          window.location.href = "index.html";
+      }
+
+      function backup(){
+        const language = localStorage.getItem('language') 
+        if(language == 'Deutsch') {
+          document.getElementById("percent").value = 2.49
+          document.getElementById("euro").value = 0.35
+          localStorage.setItem('percent', 2.49)
+          localStorage.setItem('euro', 0.35)
+        }
+        else {
+          document.getElementById("percent").value = 2.9
+          document.getElementById("euro").value = 0.3
+          localStorage.setItem('percent', 2.9)
+          localStorage.setItem('euro', 0.3)
+        }
+      }
+
+      function us(){
+        localStorage.setItem('percent', 2.9)
+        localStorage.setItem('euro', 0.3)
+        document.getElementById("percent").value = 2.9
+        document.getElementById("euro").value = 0.3
+      }
+
+      function europe(){
+        localStorage.setItem('percent', 2.49)
+        localStorage.setItem('euro', 0.35)
+        document.getElementById("percent").value = 2.49
+        document.getElementById("euro").value = 0.35
+      }
+      function india(){
+        localStorage.setItem('percent', 2.5)
+        localStorage.setItem('euro', 3)
+        document.getElementById("percent").value = 2.5
+        document.getElementById("euro").value = 3
+      }
+      function mexico(){
+        localStorage.setItem('percent', 3.95)
+        localStorage.setItem('euro', 4)
+        document.getElementById("percent").value = 3.95
+        document.getElementById("euro").value = 4
+      }
+
+    // Change Text according to selected Language
+    let language = localStorage.getItem('language')
+
+    if(language==null){
+      language = 'English'
+    } 
+
+    if(language=='Deutsch') {
+        document.getElementById('header').innerHTML = 'Gebührenrechner'
+        document.getElementById('text').innerHTML = 'Paypal Gebühren können Sich von Land zu Land unterscheiden. Wähle hier einfach den richtigen Wert für Dein Land aus.'
+        document.getElementById('saveButton').innerHTML = 'Speichern'
+        document.getElementById('reset').innerHTML = 'Zurücksetzen'
+    } 
+  </script>
+</html> 

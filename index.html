@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebay Gebührenrechner</title>
+    <link rel="icon" href="icon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1 class="header" id="header">
+        Calculator For Ebay Fees
+    </h1>
+    <img 
+        src="settings.png"
+         class="settingsImage"
+          onclick="window.location.href='settings.html'"
+    >
+    <div class="field" id="fieldOne" style="z-index: 1;">
+        <h3><b>
+            <span id="sellingPrice">
+                Selling Price:
+            </span> 
+            <input 
+                type="number"
+                id="price"
+                autocomplete="off"
+            >
+        </b></h3>
+        <h3><b>
+            <span id="shippingCost">
+                Shipping Cost: 
+            </span>
+            <input 
+                type="number"
+                id="shipping"
+                autocomplete="off"
+            >
+        </b></h3>
+        <h3 id="paypalLabel">
+            <b>
+                <span id="shippingInc">
+                    Shipping incl? 
+                </span>
+                <input 
+                    type="checkbox"
+                    class="checkboxShipping checkbox"
+                    id="checkboxOne"
+                    onclick="shippingIsChecked()"
+                >
+            </b>
+        </h3>
+        <h3 id="paypalLabel"><b>
+            <span id="paypal">
+                Paypal? 
+            </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            <input 
+                type="checkbox"
+                class="checkbox"
+                id="checkboxTwo"
+                onclick="isChecked()"
+            >
+        </b></h3>
+        <button onclick="calculate()" id="calculate" class="neomorph">
+            Calculate
+        </button>
+    </div>
+    <div class="field" id="fieldTwo" style="z-index: 0;">
+        <h2> 
+            <span id="youReceive">
+                You receive:
+            </span>
+            <br> 
+            <span id="calculatedPrice"></span>
+            €
+        </h2>
+        <h2>
+            <span id="afterShipping">
+                After shipping:
+            </span>
+            <br> 
+            <span id="calculatedPriceAfterShipping"></span>
+            €
+        </h2>
+        <button
+            onclick="back()"
+            id="backButton"
+            class="neomorph"
+        >
+            Back
+        </button>
+        <br>
+    </div>
+</body>
+
+<script>
+    //get paypal fees from settings
+    let euro = localStorage.getItem("euro")
+    let percent = localStorage.getItem("percent")
+    let ebayPercent = localStorage.getItem("ebayPercent")
+    let language = localStorage.getItem('language')
+
+    if(euro==null){
+      euro = 0.5
+    }
+    if(isNaN(euro)){
+      euro = 0.5
+    }
+    if(percent==null){
+      percent = 2.9
+    }  
+    if(isNaN(percent)){
+      percent = 2.9
+    }
+    if(ebayPercent==null){
+        ebayPercent = 10
+    }  
+    if(isNaN(ebayPercent)){
+        ebayPercent = 10
+    }
+
+    ebayPercent = ebayPercent/100
+    percent = percent/100
+    percent = Math.round(percent*10000)/10000
+    percent = parseFloat(percent)
+    euro = parseFloat(euro)
+
+    // Change position of checkboxTwo if seleced language is german
+    if(language = 'Deutsch') {
+        document.getElementById('checkboxTwo').style.marginLeft = '-0.3rem'
+    }
+
+
+    let checked = false
+    let shippingChecked = false
+    let priceAfterEbay = 0
+
+    function isChecked () {
+        checked = !checked
+    }
+    function shippingIsChecked() {
+        shippingChecked = !shippingChecked
+    }
+    function calculate () {
+        document.getElementById('fieldOne').style.zIndex = 0
+        document.getElementById('fieldOne').style.opacity = 0
+        document.getElementById('fieldTwo').style.zIndex = 1
+        document.getElementById('fieldTwo').style.opacity = 1
+
+        let price = parseFloat(document.getElementById('price').value)
+        let shipping = parseFloat(document.getElementById('shipping').value)
+        if(shipping == null || isNaN(shipping)) {
+            shipping = 0
+        }
+
+        if(price-(price*0.9)>199.99) {
+            priceAfterEbay = price-199.99
+        } else {
+            priceAfterEbay = price-(price*ebayPercent)
+        }
+
+        let sum;
+
+        if(shippingChecked == false) {
+            price = price + shipping
+            sum = priceAfterEbay + shipping
+        } else {
+            sum = priceAfterEbay
+        }
+
+        if (checked == true) {
+            fees = (price*percent) + euro
+            sum = Math.round((sum-fees)*100)/100
+        }
+        document.getElementById('calculatedPrice').innerHTML = sum
+        document.getElementById('calculatedPriceAfterShipping').innerHTML = Math.round((sum - shipping)*100)/100
+    }
+    function back() {
+        document.getElementById('fieldOne').style.zIndex = 1
+        document.getElementById('fieldOne').style.opacity = 1
+        document.getElementById('fieldTwo').style.zIndex = 0
+        document.getElementById('fieldTwo').style.opacity = 0
+
+        document.getElementById('calculatedPrice').innerHTML = 0
+        document.getElementById('calculatedPriceAfterShipping').innerHTML = 0
+    }
+
+
+    // Change Text according to selected Language
+
+    if(language==null){
+      location.href='start.html'
+    } 
+
+    if(language=='Deutsch') {
+        document.getElementById('header').innerHTML = 'Gebührenrechner'
+        document.getElementById('sellingPrice').innerHTML = 'Varkaufspreis:'
+        document.getElementById('shippingCost').innerHTML = 'Versandkosten:'
+        document.getElementById('shippingInc').innerHTML = 'Varsand Inkl?'
+        document.getElementById('paypal').innerHTML = 'Paypal?'
+        document.getElementById('calculate').innerHTML = 'Berechnen'
+        document.getElementById('youReceive').innerHTML = 'Sie Erhalten:'
+        document.getElementById('afterShipping').innerHTML = 'Nach Versand:'
+        document.getElementById('backButton').innerHTML = 'Zurück'
+      } 
+</script>
+
+</html>
