@@ -97,9 +97,24 @@ button{
     margin-bottom: 1rem;
 }
 
+#textDiv {
+    margin-top: 31rem;
+    width: 60vw;
+    position: absolute; 
+    left: 50%;
+    transform:translateX(-50%);
+    padding-bottom: 15rem;
+}
+
 @media (min-width: 500px) {
     .settingsImage {
         margin-top: 0rem;
+    }
+}
+
+@media (max-width: 900px) {
+    #textDiv {
+        width: 90%;
     }
 }
 
